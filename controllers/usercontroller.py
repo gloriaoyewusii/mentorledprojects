@@ -62,6 +62,7 @@ class UserController:
         try:
             user_details = UserService.login_user(user_email, user_password)
             payload = {
+                "sub": user_details.email,
                 "user":{
                     "username": user_details.username,
                     "email": user_details.email,

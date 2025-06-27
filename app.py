@@ -1,9 +1,9 @@
 import os
 from datetime import timedelta
-from src.extensions import db
+# from src.extensions import db
 from flask import Flask
 from flask_jwt_extended import JWTManager
-from flask_mongoengine import MongoEngine
+from mongoengine import connect
 
 from src.routers.user_router import user_router
 
@@ -14,12 +14,11 @@ app.config['JWT_TOKEN_LOCATION'] = ['headers']
 app.config['JWT_HEADER_NAME'] = 'Authorization'
 app.config['JWT_HEADER_TYPE'] = 'Bearer'
 
-app.config['MONGODB_SETTINGS'] = {
-    'db': 'user_authentication',
-    'host': 'localhost',
-    'port': 27017,
-}
-db.init_app(app)
+connect(
+    db='user_authentication',
+    host='localhost',
+    port=27017,
+)
 
 jwt = JWTManager(app)
 app.register_blueprint(user_router)
